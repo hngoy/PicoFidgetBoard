@@ -8,8 +8,10 @@ original song, or I can manually extract the necessary values beforehand and the
 manually in code form (inefficient)
 
 Unfortunately it appears that high-quality audio isn't possible without an external audio processor
-and so a simple 8-bit song composed of blends and tones will have to do
+and so a simple 8-bit song composed of blends and tones will have to do utlizing a Fourier Transform
 
 Song of choice: idk yet lmao
 
 """
+
+def music(audiofile):

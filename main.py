@@ -2,6 +2,9 @@
 from picozero import *
 from time import sleep
 
+# Imports multithreading capabilities if you don't know what that is don't touch
+import threading
+
 """
 The different sections in order are:
 - RGB light
@@ -35,5 +38,6 @@ Button3 = Button(15)
 # Speaker Button and pin
 SpeakButton = Button(29)
 
+# Update loop, do not touch as 90% of it is related to multithreading for audio processing capabilities
 while True:
     
