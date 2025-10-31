@@ -14,4 +14,5 @@ Song of choice: idk yet lmao
 
 """
 
+# Music playing function that will be called during second core's update loop
 def music(audiofile):
