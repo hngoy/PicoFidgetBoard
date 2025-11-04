@@ -8,4 +8,5 @@ import machine
 
 from time import sleep
 
-
+while True:
+    updateLoop1()
