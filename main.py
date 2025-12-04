@@ -1,17 +1,4 @@
-"""
-# Import functions from music and ComponentFunctions in for the threaded update loops
-import ComponentFunctions.py
-from music import *
 
-# Prepare for the threading process in order to have music and functions in tandem
-from _thread import *
-import machine
-
-from time import sleep
-
-while True:
-    updateLoop1()
-"""
 # Imports all of picozero using * and imports sleep
 from picozero import *
 from time import sleep
@@ -46,10 +33,10 @@ ButtonB = Button(4)
 # Ports for controlling Fan backwards and forwards
 FanMotor = Motor(0,1,False)
 
-"""
+
 # Port for Potentiometer for fan
 Potential = Potentiometer(16)
-"""
+
 
 # Ports for controlling lights
 Light1 = LED(13)
@@ -99,18 +86,16 @@ def updateloop1():
         print("button3")
     else:
         Light3.off()
-    """  
+      
     # Potentiometer and Motor Setup
-    if Potential.is_active:
+    if Potential.value == true:
         FanMotor.forward()
     else:
         FanMotor.off
-    """
+    
     # Creates Output for RGBLED
     rgb.color = valuesRGB
 
-while True:
-    updateloop1()
-    sleep(0.1)
-    print("resetloop")
+
+
 
