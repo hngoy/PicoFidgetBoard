@@ -13,7 +13,7 @@ There will be no music just a buzzer
 """
 
 # Speaker
-speaker = Speaker(6)
+speaker = Speaker(27)
 
 # Toggle Button for RGB
 toggleButton = Button(28)
@@ -40,15 +40,31 @@ ButtonB = Button(4)
 # Ports for controlling Fan backwards and forwards
 FanMotor = Motor(0,1,False)
 
+    
+# Toggle for RGB and 3 lights
+toggleRGB = 0
 
+""" Potentiometer dropped
 # Port for Potentiometer for fan
 Potential = Pot(27)
+"""
 
+# Define custom pulse widths (in seconds)
+MIN_PULSE = 550 / 1000000 # 550 microseconds
+MAX_PULSE = 2400 / 1000000 # 2400 microseconds
+servo = Servo(pin=12, min_pulse_width=MIN_PULSE,max_pulse_width=MAX_PULSE)
+# Create an object connected to GPIO 0 with custom pulse width
 
 # Ports for controlling lights
 Light1 = LED(17)
-Light2 = LED(20)
-Light3 = LED(19)
+Light2 = LED(16)
+Light3 = LED(22)
+
+def badoom():
+    c_note = 523
+    speaker.play(c_note, 0.1)
+    sleep(0.1)
+    speaker.play(c_note, 0.9)
 
 # Ports for Light Buttons
 # Red
@@ -59,13 +75,11 @@ Button2 = Button(14)
 Button3 = Button(15)
 
 # Function for the first update loop for the first core
-def updateloop1():
-    
-    # Toggle for RGB and 3 lights
-    toggleRGB = 1
+def updateloop1(toggleRGB):
     
     # Changes toggle button
     if toggleButton.is_pressed:
+        print("toggle changed")
         if toggleRGB == 1:
             toggleRGB = 0
         else:
@@ -76,18 +90,21 @@ def updateloop1():
         # Set and Reset Red Value
         if Button1.is_pressed:
             valuesRGB[0] = 255
+            print("R")
         else:
             valuesRGB[0] = 0
 
         # Set and Reset Green Value
         if Button2.is_pressed:
             valuesRGB[1] = 255
+            print("G")
         else:
             valuesRGB[1] = 0
 
         # Set and Reset Blue Value
-        if Button2.is_pressed:
+        if Button3.is_pressed:
             valuesRGB[2] = 255
+            print("B")
         else:
             valuesRGB[2] = 0
     else:
@@ -109,20 +126,30 @@ def updateloop1():
             print("button3")
         else:
             Light3.off()
-      
-    # Potentiometer and Motor Setup
-    if Potential.value == True:
-        FanMotor.forward()
+    
+    if Button1.is_pressed or Button2.is_pressed or Button3.is_pressed:
+        if Button1.is_pressed and Button2.is_pressed and Button3.is_pressed:
+            servo.max()
+            badoom()
+        else:
+            servo.mid()
     else:
-        FanMotor.off
+        servo.min()
+    
     
     # Creates Output for RGBLED
     rgb.color = valuesRGB
+    
+    return toggleRGB
 
-while True:
-    updateloop1()
-    sleep(0.1)
-    print("resetloop")
+try:
+    while True:
+        toggleRGB = updateloop1(toggleRGB)
+        sleep(0.1)
+        print("resetloop")
+    
+finally:
+    speaker.off()
 
 
 
