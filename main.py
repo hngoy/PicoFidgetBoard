@@ -127,6 +127,9 @@ def updateloop1(toggleRGB):
         else:
             Light3.off()
     
+    # Creates Output for RGBLED
+    rgb.color = valuesRGB
+    
     if Button1.is_pressed or Button2.is_pressed or Button3.is_pressed:
         if Button1.is_pressed and Button2.is_pressed and Button3.is_pressed:
             servo.max()
@@ -135,10 +138,6 @@ def updateloop1(toggleRGB):
             servo.mid()
     else:
         servo.min()
-    
-    
-    # Creates Output for RGBLED
-    rgb.color = valuesRGB
     
     return toggleRGB
 
