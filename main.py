@@ -12,13 +12,16 @@ The different sections in order are:
 There will be no music just a buzzer
 """
 
-# Toggle for RGB and 3 lights
-toggleRGB = 0
+# Speaker
+speaker = Speaker(6)
+
+# Toggle Button for RGB
+toggleButton = Button(28)
 
 # Ports for the RGB Light
-RGB_red = 5
-RGB_green = 8
-RGB_blue = 9
+RGB_red = 2
+RGB_green = 3
+RGB_blue = 4
 
 # RGB Ports for rgb object
 rgb = RGBLED(RGB_red, RGB_green, RGB_blue)
@@ -39,7 +42,7 @@ FanMotor = Motor(0,1,False)
 
 
 # Port for Potentiometer for fan
-Potential = Potentiometer(16)
+Potential = Pot(27)
 
 
 # Ports for controlling lights
@@ -57,6 +60,18 @@ Button3 = Button(15)
 
 # Function for the first update loop for the first core
 def updateloop1():
+    
+    # Toggle for RGB and 3 lights
+    toggleRGB = 1
+    
+    # Changes toggle button
+    if toggleButton.is_pressed:
+        if toggleRGB == 1:
+            toggleRGB = 0
+        else:
+            toggleRGB = 1
+    
+    # Turns on LEDs depending on which mode its on
     if toggleRGB == 0:
         # Set and Reset Red Value
         if Button1.is_pressed:
@@ -96,7 +111,7 @@ def updateloop1():
             Light3.off()
       
     # Potentiometer and Motor Setup
-    if Potential.value == true:
+    if Potential.value == True:
         FanMotor.forward()
     else:
         FanMotor.off
