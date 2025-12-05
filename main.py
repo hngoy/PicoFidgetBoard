@@ -9,10 +9,11 @@ The different sections in order are:
 - Potentiometer and fan
 - Lights with buttons
 
-Functions and operations for the music section will be held in
-the music file instead in order to prevent unnecessary pain and
-suffering
+There will be no music just a buzzer
 """
+
+# Toggle for RGB and 3 lights
+toggleRGB = 0
 
 # Ports for the RGB Light
 RGB_red = 5
@@ -25,10 +26,13 @@ rgb = RGBLED(RGB_red, RGB_green, RGB_blue)
 # Color Values for RGB Light
 valuesRGB = [0,0,0]
 
+'''
+No longer relevant as I don't have enough ports to bother with this
 # Buttons for RGB Light
 ButtonR = Button(2)
 ButtonG = Button(3)
 ButtonB = Button(4)
+'''
 
 # Ports for controlling Fan backwards and forwards
 FanMotor = Motor(0,1,False)
@@ -39,53 +43,57 @@ Potential = Potentiometer(16)
 
 
 # Ports for controlling lights
-Light1 = LED(13)
-Light2 = LED(15)
-Light3 = LED(14)
+Light1 = LED(17)
+Light2 = LED(20)
+Light3 = LED(19)
 
 # Ports for Light Buttons
-Button1 = Button(17)
-Button2 = Button(20)
-Button3 = Button(19)
+# Red
+Button1 = Button(13)
+# Green
+Button2 = Button(14)
+# Blue/Yellow
+Button3 = Button(15)
 
 # Function for the first update loop for the first core
 def updateloop1():
-    # Set and Reset Red Value
-    if ButtonR.is_pressed:
-        valuesRGB[0] = 255
-    else:
-        valuesRGB[0] = 0
+    if toggleRGB == 0:
+        # Set and Reset Red Value
+        if Button1.is_pressed:
+            valuesRGB[0] = 255
+        else:
+            valuesRGB[0] = 0
 
-    # Set and Reset Green Value
-    if ButtonG.is_pressed:
-        valuesRGB[1] = 255
-    else:
-        valuesRGB[1] = 0
+        # Set and Reset Green Value
+        if Button2.is_pressed:
+            valuesRGB[1] = 255
+        else:
+            valuesRGB[1] = 0
 
-    # Set and Reset Blue Value
-    if ButtonB.is_pressed:
-        valuesRGB[2] = 255
+        # Set and Reset Blue Value
+        if Button2.is_pressed:
+            valuesRGB[2] = 255
+        else:
+            valuesRGB[2] = 0
     else:
-        valuesRGB[2] = 0
+        # Set and Reset Values for non-RGB lights
+        if Button1.is_pressed:
+            Light1.on()
+            print("button1")
+        else:
+            Light1.off()
 
-    # Set and Reset Values for non-RGB lights
-    if Button1.is_pressed:
-        Light1.on()
-        print("button1")
-    else:
-        Light1.off()
-
-    if Button2.is_pressed:
-        Light2.on()
-        print("button2")
-    else:
-        Light2.off()
+        if Button2.is_pressed:
+            Light2.on()
+            print("button2")
+        else:
+            Light2.off()
         
-    if Button3.is_pressed:
-        Light3.on()
-        print("button3")
-    else:
-        Light3.off()
+        if Button3.is_pressed:
+            Light3.on()
+            print("button3")
+        else:
+            Light3.off()
       
     # Potentiometer and Motor Setup
     if Potential.value == true:
@@ -96,6 +104,10 @@ def updateloop1():
     # Creates Output for RGBLED
     rgb.color = valuesRGB
 
+while True:
+    updateloop1()
+    sleep(0.1)
+    print("resetloop")
 
 
 
